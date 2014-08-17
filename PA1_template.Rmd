@@ -2,7 +2,11 @@
 
 
 ## Loading and preprocessing the data
-
+'''{r}
+data<-read.csv("activity.csv");
+data1<-subset(data,!is.na(data$step))
+data1$date<-as.character(data1$date)
+'''
 
 
 ## What is mean total number of steps taken per day?
