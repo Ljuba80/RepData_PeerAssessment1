@@ -1,5 +1,5 @@
-# Reproducible Research: Peer Assessment 1
-# knitr configuration
+# Programming assignment 1
+ljuba80  
 
 
 ## Loading and preprocessing the data
@@ -15,10 +15,10 @@ data1$date<-as.character(data1$date)
 
 ```r
 tot<-with(data1, tapply(steps, date, sum))
-hist(tot,main="Total number of steps")
+hist(tot,breaks=50,main="Total number of steps")
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+![plot of chunk unnamed-chunk-2](./PA1_template_files/figure-html/unnamed-chunk-2.png) 
 
 ```r
 mean(tot)
@@ -44,11 +44,11 @@ median(tot)
 ```r
 avgNSteps<-with(data1, tapply(steps, interval, mean))
 plot(unique(data1$interval),avgNSteps,main="Avg daily activity",
-     ylab="av # of steps",xlab="interval",col='red',lwd=0)
+     ylab="av # of steps",xlab="interval",col='red',lwd=0,type='n')
 lines(unique(data1$interval),avgNSteps,col='red');
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+![plot of chunk unnamed-chunk-3](./PA1_template_files/figure-html/unnamed-chunk-3.png) 
 
 ```r
 #gives 206.1698 in 835
@@ -81,10 +81,10 @@ numOfMissingVal
 avgPerInt<-data.frame(steps=avgNSteps,intervals=unique(data$interval))
 data$steps[is.na(data$steps)]=avgPerInt$steps
 tot1<-with(data, tapply(steps, date, sum))
-hist(tot1,main="Total number of steps - imputed missing values")
+hist(tot1,breaks=50,main="Total number of steps - imputed missing values")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-51.png) 
+![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-51.png) 
 
 ```r
 mean(tot1)
@@ -118,7 +118,7 @@ plot(unique(ndf1$interval),avgNSteps,main="Avg daily activity-weekday",
 lines(unique(ndf1$interval),avgNSteps,col="red")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-52.png) 
+![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-52.png) 
 
 ```r
 ndf2<-subset(data,typeOfDay==levels(data$typeOfDay)[2])
@@ -128,5 +128,5 @@ plot(unique(ndf2$interval),avgNSteps,main="Avg daily activity-weekend",
 lines(unique(ndf2$interval),avgNSteps,col="red")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-53.png) 
+![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-53.png) 
 

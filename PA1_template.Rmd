@@ -1,5 +1,13 @@
-# Reproducible Research: Peer Assessment 1
-# knitr configuration
+---
+title: "Programming assignment 1"
+author: "ljuba80"
+output:
+  html_document:
+    fig_width: 11
+    keep_md: yes
+    theme: readable
+    toc: yes
+---
 
 
 ## Loading and preprocessing the data
@@ -13,7 +21,7 @@ data1$date<-as.character(data1$date)
 ## What is mean total number of steps taken per day?
 ```{r,echo=TRUE}
 tot<-with(data1, tapply(steps, date, sum))
-hist(tot,main="Total number of steps")
+hist(tot,breaks=50,main="Total number of steps")
 mean(tot)
 median(tot)
 ```
@@ -25,7 +33,7 @@ median(tot)
 ```{r,echo=TRUE}
 avgNSteps<-with(data1, tapply(steps, interval, mean))
 plot(unique(data1$interval),avgNSteps,main="Avg daily activity",
-     ylab="av # of steps",xlab="interval",col='red',lwd=0)
+     ylab="av # of steps",xlab="interval",col='red',lwd=0,type='n')
 lines(unique(data1$interval),avgNSteps,col='red');
 
 #gives 206.1698 in 835
@@ -47,7 +55,7 @@ numOfMissingVal
 avgPerInt<-data.frame(steps=avgNSteps,intervals=unique(data$interval))
 data$steps[is.na(data$steps)]=avgPerInt$steps
 tot1<-with(data, tapply(steps, date, sum))
-hist(tot1,main="Total number of steps - imputed missing values")
+hist(tot1,breaks=50,main="Total number of steps - imputed missing values")
 mean(tot1)
 median(tot1)
 #adding new variable to data frame
