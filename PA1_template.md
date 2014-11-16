@@ -6,6 +6,14 @@ ljuba80
 
 
 ```r
+library("ggplot2")
+```
+
+```
+## Warning: package 'ggplot2' was built under R version 3.1.2
+```
+
+```r
 data<-read.csv("activity.csv");
 data1<-subset(data,!is.na(data$step))
 data1$date<-as.character(data1$date)
@@ -110,23 +118,21 @@ data<-cbind(data,data.frame(typeOfDay=""))
 levels(data$typeOfDay)<-c("weekday","Weekend")
 data$typeOfDay[weekdays(as.Date(data$date))!=as.character("Saturday") & weekdays(as.Date(data$date))!=as.character("Sunday")]=levels(data$typeOfDay)[1]
 data$typeOfDay[weekdays(as.Date(data$date))==as.character("Saturday") | weekdays(as.Date(data$date))==as.character("Sunday")]=levels(data$typeOfDay)[2]
-
+#weekday
 ndf1<-subset(data,typeOfDay==levels(data$typeOfDay)[1])
-avgNSteps<-with(ndf1, tapply(steps, interval, mean))
-plot(unique(ndf1$interval),avgNSteps,main="Avg daily activity-weekday",
-     ylab="av # of steps",xlab="interval",type="n")
-lines(unique(ndf1$interval),avgNSteps,col="red")
+avgNSteps1<-with(ndf1, tapply(steps, interval, mean))
+#weekend
+ndf2<-subset(data,typeOfDay==levels(data$typeOfDay)[2])
+avgNSteps2<-with(ndf2, tapply(steps, interval, mean))
+avgNumSteps=c(avgNSteps1,avgNSteps2)
+wDays=c(rep(levels(data$typeOfDay)[1],length(avgNSteps1)),
+        rep(levels(data$typeOfDay)[2],length(avgNSteps2)))
+Interval=c(unique(ndf1$interval),unique(ndf2$interval))
+df = data.frame(avgNumSteps,wDays,Interval)
+g<-ggplot(df,aes(Interval,avgNumSteps))
+p<-g+geom_line()  + facet_grid(.~wDays)
+print(p)
 ```
 
 ![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-52.png) 
-
-```r
-ndf2<-subset(data,typeOfDay==levels(data$typeOfDay)[2])
-avgNSteps<-with(ndf2, tapply(steps, interval, mean))
-plot(unique(ndf2$interval),avgNSteps,main="Avg daily activity-weekend",
-     ylab="av # of steps",xlab="interval",type="n")
-lines(unique(ndf2$interval),avgNSteps,col="red")
-```
-
-![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-53.png) 
 
